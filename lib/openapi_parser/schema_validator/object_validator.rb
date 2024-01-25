@@ -41,7 +41,10 @@ class OpenAPIParser::SchemaValidator
 
       remaining_keys.delete(discriminator_property_name) if discriminator_property_name
 
-      if !remaining_keys.empty? && !parent_all_of && !schema.additional_properties
+      # 元々以下行にて
+      # !remaining_keys.empty? && !parent_all_of &&!schema.additional_properties
+      # additional_propertiesが false の場合にカラムの過剰のエラー対象としての判定を行っている
+      if !remaining_keys.empty? && !parent_all_of
         # If object is nested in all of, the validation is already done in allOf validator. Or if
         # additionalProperties are defined, we will validate using that
         return [nil, OpenAPIParser::NotExistPropertyDefinition.new(remaining_keys, schema.object_reference)]
